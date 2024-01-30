@@ -301,9 +301,14 @@ class Hilo_Conexiones(threading.Thread, Comunicaciones):
             print "Minut_Pesencia: ", self.Minutos_Presencia
             
             if self.Tiempo_Alimen_Dia != 0:
-                if self.Tiempo_Tot_Turno >= 480 and self.Tiempo_Tot_Turno < 720:
+                if self.Tiempo_Tot_Turno >= 480 and self.Tiempo_Tot_Turno < 610:
                     if (self.Tiempo_Alimen_Dia >= 30) or (self.Tiempo_Alimen_Dia < 30 and self.Contador_Paros_Alim > 1):
                         self.Minutos_Presencia = self.Minutos_Presencia - 30                        
+                    else:
+                        self.Minutos_Presencia = self.Minutos_Presencia - self.Tiempo_Alimen_Dia
+                elif self.Tiempo_Tot_Turno >=610 and self.Tiempo_Tot_Turno <720:
+                    if (self.Tiempo_Alimen_Dia >= 45) or (self.Tiempo_Alimen_Dia < 45 and self.Contador_Paros_Alim > 2):
+                        self.Minutos_Presencia = self.Minutos_Presencia - 45
                     else:
                         self.Minutos_Presencia = self.Minutos_Presencia - self.Tiempo_Alimen_Dia
                 elif self.Tiempo_Tot_Turno >= 720:
@@ -314,7 +319,7 @@ class Hilo_Conexiones(threading.Thread, Comunicaciones):
                 else:
                     pass
             else:
-                pass
+                 pass
             COM.Cursor.execute("SELECT Codigo_Mstr_Paro, Descripcion, Color_Alarma, Afecta_Eficiencia FROM Mstr_Paros WHERE Afecta_Eficiencia = 'True'")
             self.Row_MSTR_Paros = COM.Cursor.fetchall()
             if self.Row_MSTR_Paros != None:
@@ -360,7 +365,7 @@ class Hilo_Conexiones(threading.Thread, Comunicaciones):
             
         except:
             self.Indic_Error_Efic = "ERROR_EFIC"            
-            print 'Error C lculo Efic'
+            print 'Error Cï¿½lculo Efic'
             return
         
 #============================================================================================#
